@@ -12,7 +12,7 @@ using namespace std;
 int brojUsera = 0;
 list<Korisnik> listaKorisnika;
 
-int brojRadnika = 0
+int brojRadnika = 0;
 list<Radnik> listaRadnika;
 
 #endif // GLOBAL_H

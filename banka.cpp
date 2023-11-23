@@ -56,7 +56,7 @@ int main() {
                         case 7: 
                             break;
                         default: 
-                            cout << "Unjeli ste nepostojecu opciju!"
+                            cout << "Unjeli ste nepostojecu opciju!";
                             pauza();
                             break;
                     }
@@ -65,7 +65,7 @@ int main() {
                 bool poklapanjeKorisnik = false;
                 for (const auto& korisnik : listaKorisnika) {
                     if (korisnik.provjeriPodatke(username, password)) {
-                        poklapanje = true;
+                        poklapanjeKorisnik = true;
                         break;
                     }
                 }

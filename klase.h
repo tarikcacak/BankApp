@@ -41,7 +41,7 @@ class Radnik {
         Radnik(int userId, const string& username, const string& password, const string& JMBG);
 
         void ispisiPodatkeRadnika() const;
-        bool provjeriPodatke(const string& inputUsername const string& inputPassword) const;
+        bool provjeriPodatke(const string& inputUsername, const string& inputPassword) const;
 
         // getteri
         int getId() const;

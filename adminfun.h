@@ -128,8 +128,7 @@ int dodajRadnika(Radnik radnik) {
         return 1;
     }
     outputFile << radnik.getId() << endl;
-    outputFile << radnik.getIme() << endl;
-    outputFile << radnik.getPrezime() << endl;
+    outputFile << radnik.getUsername() << endl;
     outputFile << radnik.getJMBG() << endl;
     outputFile << endl;
 
@@ -185,8 +184,7 @@ int prepisiRadnike() {
     }
     for (const auto& radnik : listaRadnika) {
         outputFile << radnik.getId() << endl;
-        outputFile << radnik.getIme() << endl;
-        outputFile << radnik.getPrezime() << endl;
+        outputFile << radnik.getUsername() << endl;
         outputFile << radnik.getJMBG() << endl;
         outputFile << endl;
     }

@@ -55,12 +55,11 @@ bool Korisnik::provjeriPodatke(const string& inputUsername, const string& inputP
     return (username == inputUsername) && (password == inputPassword);
 }
 
-Radink::Radnik() {}
+Radnik::Radnik() {}
 
-Radnik::Radnik(int radnikId, const string& ime, const string& prezime, const string& JMBG) {
+Radnik::Radnik(int radnikId, const string& username, const string& password, const string& JMBG) {
     this->id = radnikId;
-    this->ime = ime;
-    this->prezime = prezime;
+    this->username = 
     this->JMBG = JMBG;
 }
 
@@ -68,12 +67,12 @@ int Radnik::getId() const {
     return id;
 }
 
-string Radnik::getIme() const {
-    return ime;
+string Radnik::getUsername() const {
+    return username;
 }
 
-string Radnik::getPrezime() const {
-    return prezime;
+string Radnik::getPassword() const {
+    return password;
 }
 
 string Radnik::getJMBG() const {
@@ -84,22 +83,18 @@ void Radnik::setId(int radnikId) {
     id = radnikId;
 }
 
-void Radnik::setIme(const string& novoIme) {
-    ime = novoIme;
-}
-
-void Radnik::setPrezime(const string& novoPrezime) {
-    prezime = novoPrezime;
+void Radnik::setUsername(const string& newUsername) {
+    username = newUsername;
 }
 
 void Radnik::setJMBG(const string& newJMBG) {
     JMBG = newJMBG;
 }
 
-void Radnik::ispisiPodatke() const {
+void Radnik::ispisiPodatkeRadnika() const {
     cout << "Radnik ID: " << id << endl;
-    cout << "Ime: " << ime << endl;
-    cout << "Prezime: " << prezime << endl;
+    cout << "Username: " << username << endl;
+    cout << "Password: " << password << endl;
     cout << "JMBG: " << JMBG << endl;
     cout << "--------------------------" << endl;
 }
