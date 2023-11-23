@@ -95,4 +95,44 @@ int prepisiKorisnike() {
     return 0;
 }
 
+void uporediPassword(string* password, string* passwordConf) {
+    while (true) {
+        cout << "Unesite password:" << endl;
+        cin >> *password;
+        cout << "Potvrdite password:" << endl;
+        cin >> *passwordConf;
+        if (*password == *passwordConf) {
+            break;
+        }
+        system("cls");
+    }
+}
+
+void provjeriJMBG(string* JMBG) {
+    while (true) {
+        cout << "Unesite svoj JMBG: " << endl;
+        cin >> *JMBG;
+        if (!(JMBG->length() == 12)) {
+            system("cls");
+            cout << "JMBG mora imati tacno 12 brojeva!" << endl;
+            pauza();
+        }
+        bool allDigits = true;
+        for (char c : *JMBG) {
+            if (!isdigit(c)) {
+                allDigits = false;
+                break;
+            }
+        }
+        if (!allDigits) {
+            system("cls");
+            cout << "JMBG se smije sastojati samo od brojeva!" << endl;
+            pauza();
+        }
+        if (JMBG->length() == 12 && allDigits == true) {
+            break;
+        }
+    }
+}
+
 #endif // FUNKCIJE_H

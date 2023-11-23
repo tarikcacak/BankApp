@@ -106,17 +106,26 @@ void kreirajUrediRadnika() {
     cout << "1. Kreiraj radnika" << endl;
     cout << "2. Uredi radnika" << endl;
     switch (odabir) {
-        case 1:
-            
+        case 1: {
             system("cls");
-
+            string username;
+            string password;
+            string passwordConf;
+            string JMBG;
+            cout << "Unesite username radnika:" << endl;
+            cin >> username;
+            uporediPassword(&password, &passwordConf);
+            provjeriJMBG(&JMBG);
             break;
-        case 2:
+        }
+        case 2: {
             break;
-        default:
+        }
+        default: {
             system("cls");
             cout << "Odabrali ste nepostojecu opciju!";
             pauza();
+        }
     }
 }
 
