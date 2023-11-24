@@ -74,8 +74,6 @@ int ucitajKorisnike() {
 int prepisiKorisnike() {
     string filename = "korisnici.txt";
 
-    cout << "test" << endl;
-
     ofstream outputFile(filename);
 
     if (!outputFile.is_open()) {
@@ -110,7 +108,7 @@ void uporediPassword(string* password, string* passwordConf) {
 
 void provjeriJMBG(string* JMBG) {
     while (true) {
-        cout << "Unesite svoj JMBG: " << endl;
+        cout << "Unesite JMBG: " << endl;
         cin >> *JMBG;
         if (!(JMBG->length() == 12)) {
             system("cls");

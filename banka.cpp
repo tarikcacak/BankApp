@@ -14,13 +14,13 @@ using namespace std;
 
 int main() {
     ucitajKorisnike();
+    ucitajRadnike();
     while (true) {
         system("cls");
         int option;
         cout << "1. Prijava" << endl;
         cout << "2. Registracija" << endl;
         cout << "3. Exit" << endl;
-        cout << "Broj usera: " << brojUsera << endl;
         cin >> option;
         if (option == 1) {
             string username;
@@ -32,15 +32,21 @@ int main() {
             if (username == "admin" && password == "admin") {
                 while (true) {
                     int option;
-                    
+                    bool logOff = false;
                     menuAdmin();
                     cin >> option;
                     switch (option) {
                         case 1:
-                            ispisiKorisnike();
-                            int idKorisnika;
-                            cin >> idKorisnika;
-                            urediKorisnika(idKorisnika);
+                            if (!listaKorisnika.empty()) {
+                                ispisiKorisnike();
+                                int idKorisnika;
+                                cin >> idKorisnika;
+                                urediKorisnika(idKorisnika);
+                            } else {
+                                system("cls");
+                                cout << "Lista korisnika je prazna!" << endl;
+                                pauza();
+                            }
                             break;
                         case 2:
                             kreirajUrediRadnika();
@@ -54,11 +60,15 @@ int main() {
                         case 6:
                             break;
                         case 7: 
+                            logOff = true;
                             break;
                         default: 
                             cout << "Unjeli ste nepostojecu opciju!";
                             pauza();
                             break;
+                    }
+                    if (logOff) {
+                        break;
                     }
                 }
             } else {
@@ -87,7 +97,7 @@ int main() {
             uporediPassword(&password, &passwordConf);
             provjeriJMBG(&JMBG);
             Korisnik korisnik(
-                brojUsera + 1,
+                brojUsera,
                 username,
                 password,
                 JMBG

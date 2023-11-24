@@ -59,7 +59,8 @@ Radnik::Radnik() {}
 
 Radnik::Radnik(int radnikId, const string& username, const string& password, const string& JMBG) {
     this->id = radnikId;
-    this->username = 
+    this->username = username;
+    this->password = password;
     this->JMBG = JMBG;
 }
 
@@ -85,6 +86,10 @@ void Radnik::setId(int radnikId) {
 
 void Radnik::setUsername(const string& newUsername) {
     username = newUsername;
+}
+
+void Radnik::setPassword(const string& newPassword) {
+    password = newPassword;
 }
 
 void Radnik::setJMBG(const string& newJMBG) {

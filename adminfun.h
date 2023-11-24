@@ -15,6 +15,9 @@
 
 using namespace std;
 
+int dodajRadnika(Radnik radnik);
+void urediRadnika(int selectedId);
+
 void menuAdmin() {
     cout << "Opcije: " << endl;
     cout << "1. Uredi korisnika" << endl;
@@ -35,6 +38,16 @@ void ispisiKorisnike() {
     }
     cout << endl;
     cout << "Unesite ID korisnika kojeg zelite urediti: ";
+}
+
+void ispisiRadnike() {
+    cout << "Radnici: " << endl;
+    cout << endl;
+    for (const auto& radnik : listaRadnika) {
+        radnik.ispisiPodatkeRadnika();
+    }
+    cout << endl;
+    cout << "Unesite ID radnika kojeg zelite urediti: ";
 }
 
 void urediKorisnika(int selectedId) {
@@ -82,14 +95,14 @@ void urediKorisnika(int selectedId) {
             system("cls");
             cout << "Unesite novi password:" << endl;
             cin >> noviPassword;
-            const_cast<Korisnik*>(odabrani)->setUsername(noviUsername);
+            const_cast<Korisnik*>(odabrani)->setPassword(noviPassword);
             prepisiKorisnike();
             break;
         case 3: 
             system("cls");
             cout << "Unesite novi JMBG:" << endl;
             cin >> noviJMBG;
-            const_cast<Korisnik*>(odabrani)->setUsername(noviUsername);
+            const_cast<Korisnik*>(odabrani)->setJMBG(noviJMBG);
             prepisiKorisnike();
             break;
         default:
@@ -105,6 +118,7 @@ void kreirajUrediRadnika() {
     cout << "Opcije:" << endl;
     cout << "1. Kreiraj radnika" << endl;
     cout << "2. Uredi radnika" << endl;
+    cin >> odabir;
     switch (odabir) {
         case 1: {
             system("cls");
@@ -116,14 +130,31 @@ void kreirajUrediRadnika() {
             cin >> username;
             uporediPassword(&password, &passwordConf);
             provjeriJMBG(&JMBG);
+            Radnik radink(
+                brojRadnika,
+                username,
+                password,
+                JMBG
+            );
+            dodajRadnika(radink);
             break;
         }
         case 2: {
+            if (!listaRadnika.empty()) {
+                ispisiRadnike();
+                int idRadnika;
+                cin >> idRadnika;
+                urediRadnika(idRadnika);
+            } else {
+                system("cls");
+                cout << "Lista radnika je prazna!" << endl;
+                pauza();
+            }
             break;
         }
         default: {
             system("cls");
-            cout << "Odabrali ste nepostojecu opciju!";
+            cout << "Odabrali ste nepostojecu opciju!" << endl;;
             pauza();
         }
     }
@@ -138,13 +169,15 @@ int dodajRadnika(Radnik radnik) {
     }
     outputFile << radnik.getId() << endl;
     outputFile << radnik.getUsername() << endl;
+    outputFile << radnik.getPassword() << endl;
     outputFile << radnik.getJMBG() << endl;
+    
     outputFile << endl;
 
     outputFile.close();
 
     system("cls");
-    cout << "Uspjesno ste dodali radnika!";
+    cout << "Uspjesno ste dodali radnika!" << endl;
     pauza();
     listaRadnika.push_back(radnik);
     brojRadnika++;
@@ -162,15 +195,15 @@ int ucitajRadnike() {
     }
 
     int radnikId;
-    string ime, prezime, JMBG;
+    string username, password, JMBG;
     int linija = 0;
-    while (inputFile >> radnikId >> ime >> prezime >> JMBG) {
+    while (inputFile >> radnikId >> username >> password >> JMBG) {
         linija++;
         if (linija % 5 == 0) {
             linija = 0;
             continue;
         }
-        Radnik radnik(radnikId, ime, prezime, JMBG);
+        Radnik radnik(radnikId, username, password, JMBG);
         listaRadnika.push_back(radnik);
         brojRadnika++;
     }
@@ -194,6 +227,7 @@ int prepisiRadnike() {
     for (const auto& radnik : listaRadnika) {
         outputFile << radnik.getId() << endl;
         outputFile << radnik.getUsername() << endl;
+        outputFile << radnik.getPassword() << endl;
         outputFile << radnik.getJMBG() << endl;
         outputFile << endl;
     }
@@ -201,6 +235,69 @@ int prepisiRadnike() {
     outputFile.close();
 
     return 0;
+}
+
+void urediRadnika(int slectedId) {
+    int opcija;
+    int napusti = 0;
+    const Radnik* odabrani = nullptr;
+    while (true) {
+        for (const auto& radnik : listaRadnika) {
+            if (radnik.getId() == slectedId) {
+                cout << "Podaci radnika: " << radnik.getUsername() << endl;
+                cout << "Worker ID: " << radnik.getId() << endl;
+                cout << "1. Username: " << radnik.getUsername() << endl;
+                cout << "2. Password: " << radnik.getPassword() << endl;
+                cout << "3. JMBG: " << radnik.getJMBG() << endl;
+                cout << "--------------------------" << endl;
+                cout << "Sta zelite urediti: ";
+                napusti = 1;
+                odabrani = &radnik;
+                break;
+            }
+        }
+        if (slectedId > brojRadnika) {
+        system("cls");
+        cout << "Unijeli ste ID nepostojećeg korisnika" << endl;
+        pauza();
+        break;
+        }
+        if (napusti == 1) {
+            break;
+        }
+    }
+    cin >> opcija;
+    string noviUsername = "";
+    string noviPassword = "";
+    string noviJMBG = "";
+    switch (opcija) {
+        case 1:
+            system("cls");
+            cout << "Unesite novi username:" << endl;
+            cin >> noviUsername;
+            const_cast<Radnik*>(odabrani)->setUsername(noviUsername);
+            prepisiRadnike();
+            break;
+        case 2: 
+            system("cls");
+            cout << "Unesite novi password:" << endl;
+            cin >> noviPassword;
+            const_cast<Radnik*>(odabrani)->setPassword(noviPassword);
+            prepisiRadnike();
+            break;
+        case 3: 
+            system("cls");
+            cout << "Unesite novi JMBG:" << endl;
+            cin >> noviJMBG;
+            const_cast<Radnik*>(odabrani)->setJMBG(noviJMBG);
+            prepisiRadnike();
+            break;
+        default:
+            system("cls");
+            cout << "Odabrali ste nepostojecu opciju!" << endl;
+            pauza();
+            break;
+    }
 }
 
 #endif // ADMINFUN_H
