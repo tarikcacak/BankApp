@@ -15,4 +15,6 @@ list<Korisnik> listaKorisnika;
 int brojRadnika = 0;
 list<Radnik> listaRadnika;
 
+list<Tekuci> listaTekucih;
+
 #endif // GLOBAL_H

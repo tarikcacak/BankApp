@@ -62,4 +62,25 @@ class Radnik {
         string JMBG;
 };
 
+class Tekuci {
+    public:
+        Tekuci();
+        Tekuci(const string& broj, const string& vlasnik, double stanje);
+
+        void ispisiPodatkeTekuceg() const;
+
+        // getteri
+        string getBroj() const;
+        string getVlasnik() const;
+        double getStanje() const;
+
+        // setteri
+        void setStanje(double novoStanje);
+    
+    private:
+        string broj;
+        string vlasnik;
+        double stanje;
+};
+
 #endif // KLASE_H

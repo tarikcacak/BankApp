@@ -133,4 +133,60 @@ void provjeriJMBG(string* JMBG) {
     }
 }
 
+void ispisiTekuceRacune() {
+    cout << "Vasi tekuci racuni:" << endl;
+    cout << endl;
+    for (const auto& tekuci : listaTekucih) {
+        tekuci.ispisiPodatkeTekuceg
+    }
+}
+
+void prepisiTekuce() {
+    string filename = "tekuci.txt";
+
+    ofstream outputFile(filename);
+
+    if (!outputFile.is_open()) {
+        cerr << "Greska pri otvaranju fajla!" << endl;
+        return 1;
+    }
+    for (const auto& tekuci : listaTekucih) {
+        outputFile << tekuci.getBroj() << endl;
+        outputFile << tekuci.getVlasnik() << endl;
+        outputFile << tekuci.getStanje() << endl;
+        outputFile << endl;
+    }
+
+    outputFile.close();
+
+    return 0;
+}
+
+void ucitajTekuce() {
+    string filename = "tekuci.txt";
+
+    ifstream inputFile(filename);
+
+    if (!inputFile.is_open()) {
+        cerr << "Greska pri otvaranju fajla!" << endl;
+    }
+
+    string broj, vlasnik;
+    double stanje;
+    int linija = 0;
+    while (inputFile >> broj >> vlasnik >> stanje) {
+        linija++;
+        if (linija % 5 == 0) {
+            linija = 0;
+            continue;
+        }
+        Tekuci tekuci(broj, vlasnik, stanje);
+        listaTekucih.push_back(tekuci);
+    }
+
+    inputFile.close();
+
+    return 0;
+}
+
 #endif // FUNKCIJE_H

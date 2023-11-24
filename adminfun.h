@@ -1,4 +1,4 @@
-// adminFunkcije.h
+// adminfun.h
 
 #ifndef ADMINFUN_H
 #define ADMINFUN_H
@@ -15,8 +15,58 @@
 
 using namespace std;
 
+void ispisiKorisnike();
+void urediKorisnika(int selectedId);
+void menuAdmin();
 int dodajRadnika(Radnik radnik);
 void urediRadnika(int selectedId);
+int prepisiRadnike();
+void kreirajUrediRadnika();
+
+
+void adminLogika() {
+    while (true) {
+        int option;
+        bool logOff = false;
+        menuAdmin();
+        cin >> option;
+        switch (option) {
+            case 1:
+                if (!listaKorisnika.empty()) {
+                    ispisiKorisnike();
+                    int idKorisnika;
+                    cin >> idKorisnika;
+                    urediKorisnika(idKorisnika);
+                } else {
+                    system("cls");
+                    cout << "Lista korisnika je prazna!" << endl;
+                    pauza();
+                }
+                break;
+            case 2:
+                kreirajUrediRadnika();
+                break;
+            case 3: 
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7: 
+                logOff = true;
+                break;
+            default: 
+                cout << "Unjeli ste nepostojecu opciju!" << endl;
+                pauza();
+                break;
+        }
+        if (logOff) {
+            break;
+        }
+    }
+}
 
 void menuAdmin() {
     cout << "Opcije: " << endl;

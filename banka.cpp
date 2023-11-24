@@ -9,12 +9,14 @@
 #include "funkcije.h"
 #include "global.h"
 #include "adminfun.h"
+#include "userfun.h"
 
 using namespace std;
 
 int main() {
     ucitajKorisnike();
     ucitajRadnike();
+    
     while (true) {
         system("cls");
         int option;
@@ -30,61 +32,26 @@ int main() {
             cout << "Unesite svoj password:" << endl;
             cin >> password;
             if (username == "admin" && password == "admin") {
-                while (true) {
-                    int option;
-                    bool logOff = false;
-                    menuAdmin();
-                    cin >> option;
-                    switch (option) {
-                        case 1:
-                            if (!listaKorisnika.empty()) {
-                                ispisiKorisnike();
-                                int idKorisnika;
-                                cin >> idKorisnika;
-                                urediKorisnika(idKorisnika);
-                            } else {
-                                system("cls");
-                                cout << "Lista korisnika je prazna!" << endl;
-                                pauza();
-                            }
-                            break;
-                        case 2:
-                            kreirajUrediRadnika();
-                            break;
-                        case 3: 
-                            break;
-                        case 4:
-                            break;
-                        case 5:
-                            break;
-                        case 6:
-                            break;
-                        case 7: 
-                            logOff = true;
-                            break;
-                        default: 
-                            cout << "Unjeli ste nepostojecu opciju!";
-                            pauza();
-                            break;
-                    }
-                    if (logOff) {
-                        break;
-                    }
-                }
+                adminLogika();
             } else {
                 bool poklapanjeKorisnik = false;
+                bool poklapanjeRadnik = false; 
                 for (const auto& korisnik : listaKorisnika) {
                     if (korisnik.provjeriPodatke(username, password)) {
                         poklapanjeKorisnik = true;
                         break;
                     }
                 }
+                for (const auto& radnik : listaRadnika) {
+                    if (radnik.provjeriPodatke(username, password)) {
+                        poklapanjeRadnik = true;
+                        break;
+                    }
+                }
                 if (poklapanjeKorisnik) {
-                    cout << "Uspjesno ste se prijavili" << endl;
-                    pauza();
-                } else {
-                    cout << "Prijava neuspjesna" << endl;
-                    pauza();
+                    userLogika(username);
+                } else if (poklapanjeRadnik) {
+                    adminLogika();
                 }
             }
         } else if (option == 2) {

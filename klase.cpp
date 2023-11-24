@@ -2,6 +2,8 @@
 
 #include "klase.h"
 
+// Korisnik
+
 Korisnik::Korisnik() {}
 
 Korisnik::Korisnik(int userId, const string& username, const string& password, const string& JMBG) {
@@ -55,6 +57,8 @@ bool Korisnik::provjeriPodatke(const string& inputUsername, const string& inputP
     return (username == inputUsername) && (password == inputPassword);
 }
 
+// Radnik
+
 Radnik::Radnik() {}
 
 Radnik::Radnik(int radnikId, const string& username, const string& password, const string& JMBG) {
@@ -102,4 +106,43 @@ void Radnik::ispisiPodatkeRadnika() const {
     cout << "Password: " << password << endl;
     cout << "JMBG: " << JMBG << endl;
     cout << "--------------------------" << endl;
+    cout << endl;
+}
+
+bool Radnik::provjeriPodatke(const string& inputUsername, const string& inputPassword) const {
+    return (username == inputUsername) && (password == inputPassword);7
+}
+
+// Tekuci 
+
+Tekuci::Tekuci() {}
+
+Tekuci::Tekuci(const string& broj, const string& vlasnik, doule stanje) {
+    this->broj = broj;
+    this->vlasnik = vlasnik;
+    this->stanje = stanje;
+}
+
+string Tekuci::getBroj() const {
+    return broj;
+}
+
+string Tekuci::getVlasnik() const {
+    return vlasnik;
+}
+
+double Tekuci::getStanje() const {
+    return stanje;
+}
+
+void Tekuci::setStanje(double novoStanje) const {
+    stanje = novoStanje;
+}
+
+void Tekuci::ispisiPodatkeTekuceg() const {
+    cout << "Broj: " << tekuci.getBroj() << endl;
+    cout << "Vlasnik: " << tekuci.getVlasnik() << endl;
+    cout << "Stanje: " << tekuci.getStanje() << endl;
+    cout << "--------------------------" << endl;
+    cout << endl;
 }
