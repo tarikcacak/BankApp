@@ -16,7 +16,7 @@ using namespace std;
 int main() {
     ucitajKorisnike();
     ucitajRadnike();
-    
+    ucitajTekuce();
     while (true) {
         system("cls");
         int option;

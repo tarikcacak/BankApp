@@ -110,14 +110,14 @@ void Radnik::ispisiPodatkeRadnika() const {
 }
 
 bool Radnik::provjeriPodatke(const string& inputUsername, const string& inputPassword) const {
-    return (username == inputUsername) && (password == inputPassword);7
+    return (username == inputUsername) && (password == inputPassword);
 }
 
 // Tekuci 
 
 Tekuci::Tekuci() {}
 
-Tekuci::Tekuci(const string& broj, const string& vlasnik, doule stanje) {
+Tekuci::Tekuci(const string& broj, const string& vlasnik, double stanje) {
     this->broj = broj;
     this->vlasnik = vlasnik;
     this->stanje = stanje;
@@ -135,14 +135,14 @@ double Tekuci::getStanje() const {
     return stanje;
 }
 
-void Tekuci::setStanje(double novoStanje) const {
+void Tekuci::setStanje(double novoStanje) {
     stanje = novoStanje;
 }
 
 void Tekuci::ispisiPodatkeTekuceg() const {
-    cout << "Broj: " << tekuci.getBroj() << endl;
-    cout << "Vlasnik: " << tekuci.getVlasnik() << endl;
-    cout << "Stanje: " << tekuci.getStanje() << endl;
+    cout << "Broj: " << broj << endl;
+    cout << "Vlasnik: " << vlasnik << endl;
+    cout << "Stanje: " << stanje << endl;
     cout << "--------------------------" << endl;
     cout << endl;
 }

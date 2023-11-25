@@ -19,6 +19,8 @@ using namespace std;
 
 void menuUser();
 string generisiNasumicniRacun();
+void userTekuci(string username);
+string kreirajTekuciRacun();
 
 void userLogika(string username) {
     while (true) {
@@ -65,59 +67,67 @@ void userTekuci(string username) {
         cout << "1. Kreiraj tekuci racun" << endl;
         cout << "2. Pregled tekucih racuna" << endl;
         cout << "3. Nazad" << endl;
+        cout << "Odabir: ";
+        cin >> opcija;
         switch (opcija) {
-            case 1:
-                string broj = kreirajTekuciRacun();
-                string vlasnik = username;
-                double stanje = 0.0;
-                prepisiTekuce();
-                cout << "Uspjesno ste kreirali tekuci racun!" << endl;
-                cout << "Za ostale detalje odaberite opciju \"Pregled tekucih racuna\"" << endl;
-                pauza();
+            case 1: {
+                    string broj = kreirajTekuciRacun();
+                    string vlasnik = username;
+                    double stanje = 0.0;
+                    prepisiTekuce();
+                    cout << "Uspjesno ste kreirali tekuci racun!" << endl;
+                    cout << "Za ostale detalje odaberite opciju \"Pregled tekucih racuna\"" << endl;
+                    pauza();
+                }
                 break;
-            case 2:
+            case 2: {
                 int daNe;
                 ispisiTekuceRacune();
                 cout << "Da li zelite izvrsiti uplatu na neki racun?" << endl;
                 cout << "1. Da" << endl;
                 cout << "2. Ne" << endl;
                 cout << "Odabir: ";
-                cin >> dane;
+                cin >> daNe;
+                bool ne = false;
                 while (true) {
-                    
-                }
-                switch (daNe) {
-                    case 1:
-                        string tekuciBroj;
-                        cout << "Unesit broj tekuceg racuna za uplatu:" << endl;
-                        cin >> tekuciBroj;
-                        for (const auto& tekuci : listaTekucih) {
-                            if (tekuciBroj == tekuci.getBroj()) {
-                                double stari = tekuci.getStanje();
-                                double iznos;
-                                double novi;
-                                cout << "Unesite iznos za uplatu:" << endl;
-                                cin >> iznos;
-                                novi = iznos + stari;
-                                tekuci.setStanje(novi);
-                                prepisiTekuce();
-                            }
-                        break;
-                    case 2:
-                        napusti = true;
-                        break;
-                    default:
-                        cout << "Unjeli ste nepostojecu opciju!" << endl;
-                        pauza();
-                        break;
+                    switch (daNe) {
+                        case 1: {
+                                string tekuciBroj;
+                                cout << "Unesit broj tekuceg racuna za uplatu:" << endl;
+                                cin >> tekuciBroj;
+                                for (auto& tekuci : listaTekucih) {
+                                    if (tekuciBroj == tekuci.getBroj()) {
+                                        double stari = tekuci.getStanje();
+                                        double iznos;
+                                        cout << "Unesite iznos za uplatu:" << endl;
+                                        cin >> iznos;
+                                        double novi = iznos + stari;
+                                        tekuci.setStanje(novi);
+                                        prepisiTekuce();
+                                    }
+                                }
+                            break;
+                        }
+                        case 2:
+                            ne = true;
+                            break;
+                        default:
+                            cout << "Unjeli ste nepostojecu opciju!" << endl;
+                            pauza();
+                            break;
                     }
+                }
+                if (ne)
+                    break;
                 break;
+                }
             case 3:
                 napusti = true;
                 break;
             default:
+                cout << "Unjeli ste nepostojecu opciju!" << endl;
+                pauza();
                 break;
-            }
         }
         if (napusti)
             break;
@@ -130,7 +140,7 @@ string kreirajTekuciRacun() {
         bool nemaIsti = false;
         tekuciRacun = generisiNasumicniRacun();
         for (const auto& tekuci : listaTekucih) {
-            if (tekuci.getBroj == tekuciRacun) {
+            if (tekuci.getBroj() == tekuciRacun) {
                 break;
             } else {
                 nemaIsti = true;

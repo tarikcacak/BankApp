@@ -137,11 +137,11 @@ void ispisiTekuceRacune() {
     cout << "Vasi tekuci racuni:" << endl;
     cout << endl;
     for (const auto& tekuci : listaTekucih) {
-        tekuci.ispisiPodatkeTekuceg
+        tekuci.ispisiPodatkeTekuceg();
     }
 }
 
-void prepisiTekuce() {
+int prepisiTekuce() {
     string filename = "tekuci.txt";
 
     ofstream outputFile(filename);
@@ -162,13 +162,14 @@ void prepisiTekuce() {
     return 0;
 }
 
-void ucitajTekuce() {
+int ucitajTekuce() {
     string filename = "tekuci.txt";
 
     ifstream inputFile(filename);
 
     if (!inputFile.is_open()) {
         cerr << "Greska pri otvaranju fajla!" << endl;
+        return 1;
     }
 
     string broj, vlasnik;
