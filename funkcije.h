@@ -162,6 +162,24 @@ int prepisiTekuce() {
     return 0;
 }
 
+int prepisiStedne() {
+    string filename = "stedni.txt";
+
+    ofstream outputFile(filename);
+
+    if (!outputFile.is_open()) {
+        cerr << "Greska pri otvaranju fajla!" << endl;
+        return 1;
+    }
+    for (const auto& stedni : lis) {
+        outputFile << tekuci.getBroj() << endl;
+        outputFile << tekuci.getVlasnik() << endl;
+        outputFile << tekuci.getStanje() << endl;
+        outputFile << endl;
+    }
+
+}
+
 int ucitajTekuce() {
     string filename = "tekuci.txt";
 

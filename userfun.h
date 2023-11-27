@@ -20,7 +20,7 @@ using namespace std;
 void menuUser();
 string generisiNasumicniRacun();
 void userTekuci(string username);
-string kreirajTekuciRacun();
+string kreirajRacun();
 
 void userLogika(string username) {
     while (true) {
@@ -60,67 +60,77 @@ void menuUser() {
 }
 
 void userTekuci(string username) {
-    bool napusti = false;
-    while (true) {
-        int opcija;
+    bool napusti = false; 
+    int opcija;
+    while (!napusti) {
         cout << "Opcije:" << endl;
         cout << "1. Kreiraj tekuci racun" << endl;
         cout << "2. Pregled tekucih racuna" << endl;
         cout << "3. Nazad" << endl;
         cout << "Odabir: ";
         cin >> opcija;
+        string broj;
+        string vlasnik;
+        double stanje = 0.0;
         switch (opcija) {
             case 1: {
-                    string broj = kreirajTekuciRacun();
-                    string vlasnik = username;
-                    double stanje = 0.0;
-                    prepisiTekuce();
-                    cout << "Uspjesno ste kreirali tekuci racun!" << endl;
-                    cout << "Za ostale detalje odaberite opciju \"Pregled tekucih racuna\"" << endl;
-                    pauza();
-                }
+                broj = kreirajRacun();
+                vlasnik = username;
+                prepisiTekuce();
+                Tekuci tekuci = Tekuci(
+                    broj, 
+                    vlasnik, 
+                    stanje
+                );
+                listaTekucih.push_back(tekuci);
+                prepisiTekuce();
+                cout << "Uspjesno ste kreirali tekuci racun!" << endl;
+                cout << "Za ostale detalje odaberite opciju \"Pregled tekucih racuna\"" << endl;
+                pauza();
                 break;
+            }
             case 2: {
-                int daNe;
                 ispisiTekuceRacune();
                 cout << "Da li zelite izvrsiti uplatu na neki racun?" << endl;
                 cout << "1. Da" << endl;
                 cout << "2. Ne" << endl;
                 cout << "Odabir: ";
+                int daNe;
                 cin >> daNe;
-                bool ne = false;
-                while (true) {
-                    switch (daNe) {
-                        case 1: {
-                                string tekuciBroj;
-                                cout << "Unesit broj tekuceg racuna za uplatu:" << endl;
-                                cin >> tekuciBroj;
-                                for (auto& tekuci : listaTekucih) {
-                                    if (tekuciBroj == tekuci.getBroj()) {
-                                        double stari = tekuci.getStanje();
-                                        double iznos;
-                                        cout << "Unesite iznos za uplatu:" << endl;
-                                        cin >> iznos;
-                                        double novi = iznos + stari;
-                                        tekuci.setStanje(novi);
-                                        prepisiTekuce();
-                                    }
-                                }
-                            break;
+                switch (daNe) {
+                    case 1: {
+                        string tekuciBroj;
+                        cout << "Unesit broj tekuceg racuna za uplatu:" << endl;
+                        cin >> tekuciBroj;
+                        bool pronaden = false;
+                        for (auto& tekuci : listaTekucih) {
+                            if (tekuciBroj == tekuci.getBroj()) {
+                                double stari = tekuci.getStanje();
+                                double iznos;
+                                cout << "Unesite iznos za uplatu:" << endl;
+                                cin >> iznos;
+                                double novi = iznos + stari;
+                                tekuci.setStanje(novi);
+                                prepisiTekuce();
+                                pronaden = true;
+                                break;
+                            }
                         }
-                        case 2:
-                            ne = true;
-                            break;
-                        default:
-                            cout << "Unjeli ste nepostojecu opciju!" << endl;
+                        if (!pronaden) {
+                            cout << "Nije pronađen račun s unesenim brojem." << endl;
                             pauza();
-                            break;
+                        }
+                        break;
                     }
+                    case 2:
+                        continue;
+                        break;
+                    default:
+                        cout << "Unjeli ste nepostojecu opciju!" << endl;
+                        pauza();
+                        break;
                 }
-                if (ne)
-                    break;
-                break;
-                }
+            }
             case 3:
                 napusti = true;
                 break;
@@ -129,12 +139,33 @@ void userTekuci(string username) {
                 pauza();
                 break;
         }
-        if (napusti)
-            break;
     }
 }
 
-string kreirajTekuciRacun() {
+void userStedni(string username) {
+    bool napusti = false;
+    int opcija;
+    while (!napusti) {
+        cout << "Opcije:" << endl;
+        cout << "1. Kreiraj stedni racun" << endl;
+        cout << "2. Pregled stednih racuna" << endl;
+        cout << "3. Nazad" << endl;
+        cout << "Odabir:";
+        cin >> opcija;
+        string broj;
+        string vlasnik;
+        double stanje = 0.0;
+        switch (opcija) {
+            case 1: {
+                broj = kreirajRacun();
+                vlasnik = username;
+                prepisiStedne();
+            }
+        }
+    }
+}
+
+string kreirajRacun() {
     string tekuciRacun;
     while (true) {
         bool nemaIsti = false;

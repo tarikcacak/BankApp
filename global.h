@@ -17,4 +17,6 @@ list<Radnik> listaRadnika;
 
 list<Tekuci> listaTekucih;
 
+list<Stedni> listaStednih;
+
 #endif // GLOBAL_H

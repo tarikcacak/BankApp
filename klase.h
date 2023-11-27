@@ -83,4 +83,25 @@ class Tekuci {
         double stanje;
 };
 
+class Stedni {
+    public:
+        Stedni();
+        Stedni(const string& broj, const string& vlasnik, double stanje);
+
+        void ispisiPodatkeStednog() const;
+
+        // getteri
+        string getBroj() const;
+        string getVlasnik() const;
+        double getStanje() const;
+
+        // setteri
+        void setStanje(double novoStanje);
+
+    private: 
+        string broj;
+        string vlasnik;
+        double stanje;
+};
+
 #endif // KLASE_H

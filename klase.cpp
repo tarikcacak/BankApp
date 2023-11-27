@@ -146,3 +146,37 @@ void Tekuci::ispisiPodatkeTekuceg() const {
     cout << "--------------------------" << endl;
     cout << endl;
 }
+
+// Stedni 
+
+Stedni::Stedni() {}
+
+Stedni::Stedni(const string& broj, const string& vlasnik, double stanje) {
+    this->broj = broj;
+    this->vlasnik = vlasnik;
+    this->stanje = stanje;
+}
+
+string Stedni::getBroj() const {
+    return broj;
+}
+
+string Stedni::getVlasnik() const {
+    return vlasnik;
+}
+
+double Stedni::getStanje() const {
+    return stanje;
+}
+
+void Stedni::setStanje(double novoStanje) {
+    stanje = novoStanje;
+}
+
+void Stedni::ispisiPodatkeStednog() const {
+    cout << "Broj: " << broj << endl;
+    cout << "Vlasnik: " << vlasnik << endl;
+    cout << "Stanje: " << stanje << endl;
+    cout << "--------------------------" << endl;
+    cout << endl;
+}
