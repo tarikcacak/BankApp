@@ -21,6 +21,7 @@ void menuUser();
 string generisiNasumicniRacun();
 void userTekuci(string username);
 string kreirajRacun();
+void userStedni(string username);
 
 void userLogika(string username) {
     while (true) {
@@ -33,6 +34,7 @@ void userLogika(string username) {
                 userTekuci(username);
                 break;
             case 2:
+                userStedni(username);
                 break;
             case 3:
                 break;
@@ -76,7 +78,6 @@ void userTekuci(string username) {
             case 1: {
                 broj = kreirajRacun();
                 vlasnik = username;
-                prepisiTekuce();
                 Tekuci tekuci = Tekuci(
                     broj, 
                     vlasnik, 
@@ -100,7 +101,7 @@ void userTekuci(string username) {
                 switch (daNe) {
                     case 1: {
                         string tekuciBroj;
-                        cout << "Unesit broj tekuceg racuna za uplatu:" << endl;
+                        cout << "Unesite broj tekuceg racuna za uplatu:" << endl;
                         cin >> tekuciBroj;
                         bool pronaden = false;
                         for (auto& tekuci : listaTekucih) {
@@ -117,7 +118,7 @@ void userTekuci(string username) {
                             }
                         }
                         if (!pronaden) {
-                            cout << "Nije pronađen račun s unesenim brojem." << endl;
+                            cout << "Nije pronaden racun s unesenim brojem!" << endl;
                             pauza();
                         }
                         break;
@@ -159,8 +160,67 @@ void userStedni(string username) {
             case 1: {
                 broj = kreirajRacun();
                 vlasnik = username;
+                Stedni stedni = Stedni(
+                    broj,
+                    vlasnik,
+                    stanje
+                );
+                listaStednih.push_back(stedni);
                 prepisiStedne();
+                cout << "Uspjesno ste kreirali stedni racun!" << endl;
+                cout << "Za ostale detalje odaberite opciju \"Pregled stednih racuna\"" << endl;
+                pauza();
+                break;
             }
+            case 2: {
+                ispisiStedneRacune();
+                cout << "Da li zelite izvrsiti uplatu na neki racun?" << endl;
+                cout << "1. Da" << endl; 
+                cout << "2. Ne" << endl;
+                cout << "Odabir: ";
+                int daNe;
+                cin >> daNe;
+                switch (daNe) {
+                    case 1: {
+                        string stedniBroj;
+                        cout << "Unesite broj stednog racuna za uplatu:" << endl;
+                        cin >> stedniBroj;
+                        bool pronaden = false;
+                        for (auto& stedni : listaStednih)  {
+                            if (stedniBroj == stedni.getBroj()) {
+                                double stari = stedni.getStanje();
+                                double iznos;
+                                cout << "Unesite iznos za uplatu:" << endl;
+                                cin >> iznos;
+                                double novi = iznos + stari;
+                                stedni.setStanje(novi);
+                                prepisiStedne();
+                                pronaden = true;
+                                break;
+                            }
+                        }
+                        if (!pronaden) {
+                            cout << "Nije pronaden racun s unesenim brojem!" << endl;
+                            pauza();
+                        }
+                        break;
+                    }
+                    case 2:
+                        continue;
+                        break;
+                    default:
+                        cout << "Unjeli ste nepostojecu opciju!" << endl;
+                        pauza();
+                        break;
+                }
+            }
+            case 3:
+                napusti = true;
+                break;
+            default:
+                cout << "Unjeli ste nepostojecu opciju!" << endl;
+                pauza();
+                break;
         }
     }
 }

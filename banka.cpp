@@ -17,6 +17,7 @@ int main() {
     ucitajKorisnike();
     ucitajRadnike();
     ucitajTekuce();
+    ucitajStedne();
     while (true) {
         system("cls");
         int option;

@@ -162,6 +162,14 @@ int prepisiTekuce() {
     return 0;
 }
 
+void ispisiStedneRacune() {
+    cout << "Vasi stedni racuni:" << endl;
+    cout << endl;
+    for (const auto& stedni : listaStednih) {
+        stedni.ispisiPodatkeStednog();
+    }
+}
+
 int prepisiStedne() {
     string filename = "stedni.txt";
 
@@ -171,13 +179,16 @@ int prepisiStedne() {
         cerr << "Greska pri otvaranju fajla!" << endl;
         return 1;
     }
-    for (const auto& stedni : lis) {
-        outputFile << tekuci.getBroj() << endl;
-        outputFile << tekuci.getVlasnik() << endl;
-        outputFile << tekuci.getStanje() << endl;
+    for (const auto& stedni : listaStednih) {
+        outputFile << stedni.getBroj() << endl;
+        outputFile << stedni.getVlasnik() << endl;
+        outputFile << stedni.getStanje() << endl;
         outputFile << endl;
     }
 
+    outputFile.close();
+
+    return 0;
 }
 
 int ucitajTekuce() {
@@ -195,12 +206,40 @@ int ucitajTekuce() {
     int linija = 0;
     while (inputFile >> broj >> vlasnik >> stanje) {
         linija++;
-        if (linija % 5 == 0) {
+        if (linija % 4 == 0) {
             linija = 0;
             continue;
         }
         Tekuci tekuci(broj, vlasnik, stanje);
         listaTekucih.push_back(tekuci);
+    }
+
+    inputFile.close();
+
+    return 0;
+}
+
+int ucitajStedne() {
+    string filename = "stedni.txt";
+
+    ifstream inputFile(filename);
+
+    if (!inputFile.is_open()) {
+        cerr << "Greska pri otvaranju fajla!" << endl;
+        return 1;
+    }
+
+    string broj, vlasnik;
+    double stanje;
+    int linija = 0;
+    while (inputFile >> broj >> vlasnik >> stanje) {
+        linija++;
+        if (linija % 4 == 0) {
+            linija = 0;
+            continue;
+        }
+        Stedni stedni(broj, vlasnik, stanje);
+        listaStednih.push_back(stedni);
     }
 
     inputFile.close();
