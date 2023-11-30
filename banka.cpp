@@ -18,6 +18,7 @@ int main() {
     ucitajRadnike();
     ucitajTekuce();
     ucitajStedne();
+    ucitajKredite();
     while (true) {
         system("cls");
         int option;

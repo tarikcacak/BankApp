@@ -174,9 +174,71 @@ void Stedni::setStanje(double novoStanje) {
 }
 
 void Stedni::ispisiPodatkeStednog() const {
+    
     cout << "Broj: " << broj << endl;
     cout << "Vlasnik: " << vlasnik << endl;
     cout << "Stanje: " << stanje << endl;
     cout << "--------------------------" << endl;
     cout << endl;
+}
+
+// kredit
+
+Kredit::Kredit() {}
+
+Kredit::Kredit(const string& id, const string& korisnik, double ukupanKredit, double dug, double placeno, int brojRata) {
+    this->id = id;
+    this->ukupanKredit = ukupanKredit;
+    this->dug = dug;
+    this->placeno = placeno;
+    this->brojRata = brojRata;
+}
+
+string Kredit::getId() const {
+    return id;
+}
+
+string Kredit::getKorisnik() const {
+    return korisnik;
+}
+
+double Kredit::getUkupanKredit() const {
+    return ukupanKredit;
+}
+
+double Kredit::getDug() const {
+    return dug;
+}
+
+double Kredit::getPlaceno() const {
+    return placeno;
+}
+
+int Kredit::getBrojRata() const {
+    return brojRata;
+}
+
+void Kredit::setDug(double noviDug) {
+    dug = noviDug;
+}
+
+void Kredit::setPlaceno(double novoPlaceno) {
+    placeno = novoPlaceno;
+}
+
+void Kredit::setBrojRata(int noviBrojRata) {
+    brojRata = noviBrojRata;
+}
+
+void Kredit::ispisiPodatkeKredita() const {
+
+    cout << "ID: " << id << endl;
+    cout << "Korisnik: " << korisnik << endl;
+    cout << "Ukupan kredit: " << ukupanKredit << endl;
+    cout << "Dug: " << dug << endl;
+    cout << "Placeno: " << placeno << endl;
+    cout << "Broj rata: " << brojRata << endl;
+    cout << "--------------------------" << endl;
+    cout << endl;
+
 }

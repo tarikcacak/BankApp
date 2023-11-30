@@ -133,11 +133,19 @@ void provjeriJMBG(string* JMBG) {
     }
 }
 
-void ispisiTekuceRacune() {
+void ispisiTekuceRacune(string username) {
+    int counter = 0;
     cout << "Vasi tekuci racuni:" << endl;
     cout << endl;
     for (const auto& tekuci : listaTekucih) {
-        tekuci.ispisiPodatkeTekuceg();
+        if (username == tekuci.getVlasnik()) {
+            tekuci.ispisiPodatkeTekuceg();
+            counter++;
+        }
+    }
+    if (counter == 0) {
+        cout << "Nemate tekucih racunar!" << endl;
+        pauza();
     }
 }
 
@@ -162,11 +170,35 @@ int prepisiTekuce() {
     return 0;
 }
 
-void ispisiStedneRacune() {
+void ispisiStedneRacune(string username) {
+    int counter = 0;
     cout << "Vasi stedni racuni:" << endl;
     cout << endl;
     for (const auto& stedni : listaStednih) {
-        stedni.ispisiPodatkeStednog();
+        if (username == stedni.getVlasnik()) {
+            stedni.ispisiPodatkeStednog();
+            counter++;
+        }
+    }
+    if (counter == 0) {
+        cout << "Nemate stednih racuna!" << endl;
+        pauza();
+    }
+}
+
+void ispisiKredite(string username) {
+    int counter = 0;
+    cout << "Vasi krediti:" << endl;
+    cout << endl;
+    for (const auto& kredit : listaKredita) {
+        if (username == kredit.getKorisnik()) {
+            kredit.ispisiPodatkeKredita();
+            counter++;
+        }
+    }
+    if (counter == 0) {
+        cout << "Nemate kredita!" << endl;
+        pauza();
     }
 }
 
@@ -241,6 +273,59 @@ int ucitajStedne() {
         Stedni stedni(broj, vlasnik, stanje);
         listaStednih.push_back(stedni);
     }
+
+    inputFile.close();
+
+    return 0;
+}
+
+int prepisiKredite() {
+    string filename = "krediti.txt";
+
+    ofstream outputFile(filename);
+
+    if (!outputFile.is_open()) {
+        cerr << "Greska pri otvaranju fajla!" << endl;
+        return 1;
+    }
+    for (const auto& kredit : listaKredita) {
+        outputFile << kredit.getId() << endl;
+        outputFile << kredit.getKorisnik() << endl;
+        outputFile << kredit.getUkupanKredit() << endl;
+        outputFile << kredit.getDug() << endl;
+        outputFile << kredit.getPlaceno() << endl;
+        outputFile << kredit.getBrojRata() << endl;
+        outputFile << endl;
+    }
+
+    outputFile.close();
+
+    return 0;
+}
+
+int ucitajKredite() {
+    string filename = "krediti.txt";
+
+    ifstream inputFile(filename);
+
+    if (!inputFile.is_open()) {
+        cerr << "Greska pri otvaranju fajla!" << endl;
+        return 1;
+    }
+
+    string id, korisnik;
+    double ukupanKredit, dug, placeno;
+    int brojRata;
+    int linija = 0;
+    while (inputFile >> id >> korisnik >> ukupanKredit >> dug >> placeno >> brojRata) {
+        linija++;
+        if (linija % 7 == 0) {
+            linija = 0;
+            continue;
+        }
+        Kredit kredit(id, korisnik, ukupanKredit, dug, placeno, brojRata);
+        listaKredita.push_back(kredit);
+    } 
 
     inputFile.close();
 

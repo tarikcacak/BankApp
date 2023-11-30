@@ -104,4 +104,33 @@ class Stedni {
         double stanje;
 };
 
+class Kredit {
+    public:
+        Kredit();
+        Kredit(const string& id, const string& korisnik, double ukupanKredit, double dug, double placeno, int brojRata);
+
+        void ispisiPodatkeKredita() const;
+
+        // getteri
+        string getId() const;
+        string getKorisnik() const;
+        double getUkupanKredit() const;
+        double getDug() const;
+        double getPlaceno() const;
+        int getBrojRata() const;
+
+        // setteri
+        void setDug(double noviDug);
+        void setPlaceno(double novoPlaceno);
+        void setBrojRata(int noviBrojRata);
+    
+    private:
+        string id;
+        string korisnik;
+        double ukupanKredit;
+        double dug;
+        double placeno;
+        double brojRata;
+};
+
 #endif // KLASE_H

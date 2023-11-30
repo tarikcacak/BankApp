@@ -19,4 +19,6 @@ list<Tekuci> listaTekucih;
 
 list<Stedni> listaStednih;
 
+list<Kredit> listaKredita;
+
 #endif // GLOBAL_H

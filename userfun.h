@@ -17,11 +17,16 @@
 
 using namespace std;
 
-void menuUser();
+string generisiNasumicniId();
 string generisiNasumicniRacun();
+void menuUser();
+void userLogika(string username);
+string kreirajKreditId();
 void userTekuci(string username);
 string kreirajRacun();
 void userStedni(string username);
+void userKredit(string username);
+void digniKredit(string username);
 
 void userLogika(string username) {
     while (true) {
@@ -37,6 +42,7 @@ void userLogika(string username) {
                 userStedni(username);
                 break;
             case 3:
+                userKredit(username);
                 break;
             case 4:
                 break;
@@ -91,7 +97,7 @@ void userTekuci(string username) {
                 break;
             }
             case 2: {
-                ispisiTekuceRacune();
+                ispisiTekuceRacune(username);
                 cout << "Da li zelite izvrsiti uplatu na neki racun?" << endl;
                 cout << "1. Da" << endl;
                 cout << "2. Ne" << endl;
@@ -151,7 +157,7 @@ void userStedni(string username) {
         cout << "1. Kreiraj stedni racun" << endl;
         cout << "2. Pregled stednih racuna" << endl;
         cout << "3. Nazad" << endl;
-        cout << "Odabir:";
+        cout << "Odabir: ";
         cin >> opcija;
         string broj;
         string vlasnik;
@@ -173,7 +179,7 @@ void userStedni(string username) {
                 break;
             }
             case 2: {
-                ispisiStedneRacune();
+                ispisiStedneRacune(username);
                 cout << "Da li zelite izvrsiti uplatu na neki racun?" << endl;
                 cout << "1. Da" << endl; 
                 cout << "2. Ne" << endl;
@@ -225,6 +231,76 @@ void userStedni(string username) {
     }
 }
 
+void userKredit(string username) {
+    bool napusti = false;
+    int opcije;
+    while (!napusti) {
+        cout << "Opcije:" << endl;
+        cout << "1. Pregled kredita" << endl;
+        cout << "2. Digni kredit" << endl;
+        cout << "3. Plati ratu" << endl;
+        cout << "4. Nazad" << endl; 
+        cout << "Odabir: " << endl;
+        cin >> opcije;
+        switch (opcije) {
+            case 1: 
+                ispisiKredite(username);
+                break;
+            case 2: {
+                cout << "Entering digniKredit function..." << endl;
+                digniKredit(username);
+                break;
+            }
+            case 3:
+                break;
+            case 4:
+                napusti = true;
+                break;
+            default:
+                cout << "Odabrali ste nepostojecu opciju!" << endl;
+                pauza();
+                break;
+        }
+    }
+}
+
+void digniKredit(string username) {
+    string id, korisnik;
+    double ukupno;
+    double dug;
+    double placeno = 0;
+    int rate;
+    korisnik = username;
+    id = kreirajKreditId();
+    cout << "Unesite kolicinu za dizanje kredita:" << endl;
+    cin >> ukupno;
+    cout << "Unesite broj mjeseci na kolko zelite odplatiti kredi:" << endl;
+    cin >> rate;
+    dug = ukupno;
+    Kredit kredit(id, korisnik, ukupno, dug, placeno, rate);
+    listaKredita.push_back(kredit);
+    prepisiKredite();
+    cout << "Uspjesno ste digli kredit!" << endl;
+    pauza();
+}
+
+string kreirajKreditId() {
+    string kreditId;
+    while (true) {
+        kreditId = generisiNasumicniId();
+        bool nemaIsti = true;
+        for (const auto& kredit : listaKredita) {
+            if (kredit.getId() == kreditId) {
+                nemaIsti = false;
+                break;
+            }
+        }
+        if (nemaIsti)
+            break;
+    }
+    return kreditId;
+}
+
 string kreirajRacun() {
     string tekuciRacun;
     while (true) {
@@ -253,6 +329,21 @@ string generisiNasumicniRacun() {
     }
 
     return nasumicniBrojevi;
+}
+
+string generisiNasumicniId() {
+    srand(static_cast<unsigned>(time(nullptr)));
+
+    const string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const int idDuzina = 10;
+
+    string nasumicniId;
+    for (int i = 0; i < idDuzina; i++) {
+        char nasumicniZnak = characters[rand() % characters.length()];
+        nasumicniId += nasumicniZnak;
+    }
+
+    return nasumicniId;
 }
 
 #endif // USERFUN_H

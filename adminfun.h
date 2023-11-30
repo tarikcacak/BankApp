@@ -266,8 +266,6 @@ int ucitajRadnike() {
 int prepisiRadnike() {
     string filename = "radnici.txt";
 
-    cout << "test" << endl;
-
     ofstream outputFile(filename);
 
     if (!outputFile.is_open()) {
@@ -349,5 +347,6 @@ void urediRadnika(int slectedId) {
             break;
     }
 }
+
 
 #endif // ADMINFUN_H
