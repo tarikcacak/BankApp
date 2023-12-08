@@ -188,6 +188,7 @@ Kredit::Kredit() {}
 
 Kredit::Kredit(const string& id, const string& korisnik, double ukupanKredit, double dug, double placeno, int brojRata) {
     this->id = id;
+    this->korisnik = korisnik;
     this->ukupanKredit = ukupanKredit;
     this->dug = dug;
     this->placeno = placeno;

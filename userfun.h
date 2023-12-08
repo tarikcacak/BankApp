@@ -27,6 +27,7 @@ string kreirajRacun();
 void userStedni(string username);
 void userKredit(string username);
 void digniKredit(string username);
+void platiRatu(string username);
 
 void userLogika(string username) {
     while (true) {
@@ -48,10 +49,16 @@ void userLogika(string username) {
                 break;
             case 5:
                 break;
+            case 6:
+                logOff = true;
+                break;
             default:
                 cout << "Unjeli ste nepostojecu opciju!" << endl;
                 pauza();
                 break;
+        }
+        if (logOff == true) {
+            break;
         }
     }
 }
@@ -232,6 +239,7 @@ void userStedni(string username) {
 }
 
 void userKredit(string username) {
+    cout << username << endl;
     bool napusti = false;
     int opcije;
     while (!napusti) {
@@ -247,11 +255,11 @@ void userKredit(string username) {
                 ispisiKredite(username);
                 break;
             case 2: {
-                cout << "Entering digniKredit function..." << endl;
                 digniKredit(username);
                 break;
             }
             case 3:
+                platiRatu(username);
                 break;
             case 4:
                 napusti = true;
@@ -271,17 +279,52 @@ void digniKredit(string username) {
     double placeno = 0;
     int rate;
     korisnik = username;
+    cout << korisnik << endl;
     id = kreirajKreditId();
     cout << "Unesite kolicinu za dizanje kredita:" << endl;
     cin >> ukupno;
     cout << "Unesite broj mjeseci na kolko zelite odplatiti kredi:" << endl;
     cin >> rate;
     dug = ukupno;
+    cout << korisnik << endl;
     Kredit kredit(id, korisnik, ukupno, dug, placeno, rate);
     listaKredita.push_back(kredit);
     prepisiKredite();
     cout << "Uspjesno ste digli kredit!" << endl;
     pauza();
+}
+
+void platiRatu(string username) {
+    if (listaKredita.empty()) {
+        system("cls");
+        cout << "Nemate kredita!" << endl;
+        pauza();
+    } else {
+        ispisiKredite(username);
+        string id;
+        double rata;
+        double noviDug;
+        double placeno;
+        cout << "Unesite ID kredita ciju ratu zelite uplatiti:" << endl;
+        cin >> id;
+        for (auto& kredit : listaKredita) {
+            if (id == kredit.getId()) {
+                rata = kredit.getUkupanKredit() / kredit.getBrojRata();
+                cout << rata << endl;
+                noviDug = kredit.getDug() - rata;
+                cout << noviDug << endl;
+                kredit.setDug(noviDug);
+                placeno = kredit.getPlaceno();
+                placeno += rata;
+                kredit.setPlaceno(placeno);
+                break;
+            }
+        }
+        prepisiKredite();
+        cout << endl;
+        cout << "Uspjesno ste platili ratu!" << endl;
+        pauza();
+    }
 }
 
 string kreirajKreditId() {
