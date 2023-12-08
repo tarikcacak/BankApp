@@ -19,6 +19,7 @@ int main() {
     ucitajTekuce();
     ucitajStedne();
     ucitajKredite();
+    ucitajTransakcije();
     while (true) {
         system("cls");
         int option;

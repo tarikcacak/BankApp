@@ -19,6 +19,12 @@ void pauza() {
     this_thread::sleep_for(delaySeconds);
 }
 
+void pritisniEnterZaNastavak() {
+    cout << "Pritisni Enter za nastavak...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.get();
+}
+
 int dodajKorisnika(Korisnik korisnik) {
     ofstream outputFile("korisnici.txt", ios::app);
 
@@ -202,6 +208,22 @@ void ispisiKredite(string username) {
     }
 }
 
+void ispisiTransakcije(string username) {
+    int counter = 0;
+    cout << "Vase transakcije:" << endl;
+    cout << endl;
+    for (const auto& transakcija : listaTransakcija) {
+        if (transakcija.getPosiljaoc().getVlasnik() == username || transakcija.getPrimaoc().getVlasnik() == username) {
+            transakcija.ispisiPodatkeTransakcije();
+            counter++;
+        }
+    }
+    if (counter == 0) {
+        cout << "Nemate transakcija!" << endl;
+        pauza();
+    }
+}
+
 int prepisiStedne() {
     string filename = "stedni.txt";
 
@@ -330,6 +352,53 @@ int ucitajKredite() {
     inputFile.close();
 
     return 0;
+}
+
+int prepisiTransakcije() {
+    string filename = "krediti.txt";
+
+    ofstream outputFile(filename);
+
+    if (!outputFile.is_open()) {
+        cerr << "Greska pri otvaranju fajla!" << endl;
+        return 1;
+    }
+    for (const auto& transakcija : listaTransakcija) {
+        outputFile << transakcija.getPosiljaoc() << endl;
+        outputFile << transakcija.getPrimaoc() << endl;
+        outputFile << transakcija.getIznos() << endl;
+        outputFile << endl;
+    }
+
+    outputFile.close();
+
+    return 0;
+}
+
+int ucitajTransakcije() {
+    string filename = "krediti.txt";
+
+    ifstream inputFile(filename);
+
+    if (!inputFile.is_open()) {
+        cerr << "Greska pri otvaranju fajla!" << endl;
+        return 1;
+    }
+
+    Tekuci posiljaoc, primaoc;
+    double iznos;
+    int linija = 0;
+    while (inputFile >> posiljaoc >> primaoc >> iznos) {
+        linija++;
+        if (linija % 4 == 0) {
+            linija = 0;
+            continue;
+        }
+        Transakcija transakcija(posiljaoc, primaoc, iznos);
+        listaTransakcija.push_back(transakcija);
+    } 
+
+    inputFile.close();
 }
 
 #endif // FUNKCIJE_H

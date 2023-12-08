@@ -28,6 +28,7 @@ void userStedni(string username);
 void userKredit(string username);
 void digniKredit(string username);
 void platiRatu(string username);
+void posaljiNovac(string username);
 
 void userLogika(string username) {
     while (true) {
@@ -46,6 +47,7 @@ void userLogika(string username) {
                 userKredit(username);
                 break;
             case 4:
+                posaljiNovac(username);
                 break;
             case 5:
                 break;
@@ -325,6 +327,62 @@ void platiRatu(string username) {
         cout << "Uspjesno ste platili ratu!" << endl;
         pauza();
     }
+}
+
+void posaljiNovac(string username) {
+    bool nastavi = false;
+    Tekuci *tekuciP;
+    string posiljaoc;
+    string primaoc; 
+    double iznos;
+    double novoStanje;
+    cout << "Unesite tekuci racun sa kojeg saljete:" << endl;
+    cin >> posiljaoc;
+    for (auto& tekuci : listaTekucih) {
+        if (posiljaoc == tekuci.getBroj()) {
+            if (username == tekuci.getVlasnik()) {
+                nastavi = true;
+                tekuciP = &tekuci;
+                break;
+            } else {
+                cout << "Ovaj racun nije vas!" << endl;
+                pauza();
+                break;
+            }
+        }
+    }
+    if (nastavi) {
+        cout << "Unesite vrijednost koju zelite poslati:" << endl;
+        cin >> iznos;
+        cout << "Unesite racun na koji saljete:" << endl;
+        cin >> primaoc;
+        for (auto& tekuci : listaTekucih) {
+            if (primaoc == tekuci.getBroj()) {
+                novoStanje = tekuciP->getStanje() - iznos;
+                if (novoStanje < 0) {
+                    cout << "Nemate dovoljno sredstava za transakciju!" << endl;
+                    pauza();
+                } else {
+                    tekuciP->setStanje(novoStanje);
+                    novoStanje = tekuci.getStanje() + iznos;
+                    tekuci.setStanje(novoStanje);
+                    Tekuci *primaocP = tekuci;
+                    Transakcija transakcija(*tekuciP, *primaocP, iznos);
+                    listaTransakcija.push_back(transakcija);
+                    prepisiTekuce();
+                    prepisiTransakcije();
+                    cout << "Transakcija uspjesno izvrsena!" << endl;
+                }
+                break;
+            }
+        }
+    } 
+}
+
+void transakcije() {
+    ispisiTransakcije();
+    cout << endl;
+    pritisniEnterZaNastavak();
 }
 
 string kreirajKreditId() {

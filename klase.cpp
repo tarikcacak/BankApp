@@ -243,3 +243,29 @@ void Kredit::ispisiPodatkeKredita() const {
     cout << endl;
 
 }
+
+// transakcija
+
+Transakcija::Transakcija() {}
+
+Transakcija::Transakcija(Tekuci &posiljaoc, Tekuci &primaoc, double iznos) {
+    this->posiljaoc = posiljaoc;
+    this->primaoc = primaoc;
+    this->iznos = iznos;
+}
+
+Tekuci Transakcija::getPosiljaoc() const {
+    return posiljaoc;
+}
+
+Tekuci Transakcija::getPrimaoc() const {
+    return primaoc;
+}
+
+double Transakcija::getIznos() const {
+    return iznos;
+}
+
+void Transakcija::ispisiPodatkeTransakcije() const {
+    cout << posiljaoc << " ---> " << primaoc << " (" << iznos << " )" << endl;
+}

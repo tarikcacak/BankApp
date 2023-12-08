@@ -133,4 +133,22 @@ class Kredit {
         double brojRata;
 };
 
+class Transakcija {
+    public:
+        Transakcija();
+        Transakcija(Tekuci &posiljaoc, Tekuci &primaoc, double iznos);
+
+        void ispisiPodatkeTransakcije() const;
+
+        // getteri
+        Tekuci getPosiljaoc() const;
+        Tekuci getPrimaoc() const;
+        double getIznos() const;
+
+    private:
+        Tekuci posiljaoc;
+        Tekuci primaoc;
+        double iznos;
+};
+
 #endif // KLASE_H

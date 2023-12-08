@@ -21,4 +21,6 @@ list<Stedni> listaStednih;
 
 list<Kredit> listaKredita;
 
+list<Transakcija> listaTransakcija;
+
 #endif // GLOBAL_H
