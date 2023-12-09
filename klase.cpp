@@ -248,24 +248,21 @@ void Kredit::ispisiPodatkeKredita() const {
 
 Transakcija::Transakcija() {}
 
-Transakcija::Transakcija(Tekuci &posiljaoc, Tekuci &primaoc, double iznos) {
-    this->posiljaoc = posiljaoc;
-    this->primaoc = primaoc;
-    this->iznos = iznos;
-}
+Transakcija::Transakcija(shared_ptr<Tekuci> posiljaoc, shared_ptr<Tekuci> primaoc, double iznos) 
+    : posiljaoc(posiljaoc), primaoc(primaoc), iznos(iznos) {}
 
-Tekuci Transakcija::getPosiljaoc() const {
+shared_ptr<Tekuci> Transakcija::getPosiljaoc() {
     return posiljaoc;
 }
 
-Tekuci Transakcija::getPrimaoc() const {
+shared_ptr<Tekuci> Transakcija::getPrimaoc() {
     return primaoc;
 }
 
-double Transakcija::getIznos() const {
+double Transakcija::getIznos() {
     return iznos;
 }
 
 void Transakcija::ispisiPodatkeTransakcije() const {
-    cout << posiljaoc << " ---> " << primaoc << " (" << iznos << " )" << endl;
+    cout << posiljaoc->getVlasnik() << " ---> " << primaoc->getVlasnik() << " (" << iznos << ")" << endl;
 }

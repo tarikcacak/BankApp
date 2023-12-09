@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
+#include <memory>
 #include "klase.h"
 #include "global.h"
 #include "funkcije.h"
@@ -29,6 +30,7 @@ void userKredit(string username);
 void digniKredit(string username);
 void platiRatu(string username);
 void posaljiNovac(string username);
+void transakcije(string username);
 
 void userLogika(string username) {
     while (true) {
@@ -50,6 +52,7 @@ void userLogika(string username) {
                 posaljiNovac(username);
                 break;
             case 5:
+                transakcije(username);
                 break;
             case 6:
                 logOff = true;
@@ -330,57 +333,60 @@ void platiRatu(string username) {
 }
 
 void posaljiNovac(string username) {
-    bool nastavi = false;
-    Tekuci *tekuciP;
+    shared_ptr<Tekuci> posiljaocObj = nullptr;
+    shared_ptr<Tekuci> primaocObj = nullptr;
     string posiljaoc;
     string primaoc; 
     double iznos;
+    double stanjePosiljaoc;
     double novoStanje;
     cout << "Unesite tekuci racun sa kojeg saljete:" << endl;
     cin >> posiljaoc;
-    for (auto& tekuci : listaTekucih) {
-        if (posiljaoc == tekuci.getBroj()) {
-            if (username == tekuci.getVlasnik()) {
-                nastavi = true;
-                tekuciP = &tekuci;
+    for (auto& tekuciPos : listaTekucih) {
+        if (posiljaoc == tekuciPos.getBroj()) {
+            if (username == tekuciPos.getVlasnik()) {
+                posiljaocObj = make_shared<Tekuci>(tekuciPos);
+                stanjePosiljaoc = tekuciPos.getStanje();
+                cout << "Unesite vrijednost koju zelite poslati:" << endl;
+                cin >> iznos;
+                cout << "Unesite racun na koji saljete:" << endl;
+                cin >> primaoc;
+                for (auto& tekuci : listaTekucih) {
+                    if (primaoc == tekuci.getBroj()) {
+                        novoStanje = stanjePosiljaoc - iznos;
+                        cout << novoStanje << endl;
+                        if (novoStanje < 0) {
+                            cout << "Nemate dovoljno sredstava za transakciju!" << endl;
+                            pauza();
+                        } else {
+                            cout << posiljaocObj->getStanje() << endl;
+                            tekuciPos.setStanje(novoStanje);
+                            prepisiTekuce();
+                            cout << posiljaocObj->getStanje() << endl;
+                            novoStanje = tekuci.getStanje() + iznos;
+                            tekuci.setStanje(novoStanje);
+                            prepisiTekuce();
+                            primaocObj = make_shared<Tekuci>(tekuci);
+                            Transakcija transakcija(posiljaocObj, primaocObj, iznos);
+                            listaTransakcija.push_back(transakcija);
+                            prepisiTransakcije();
+                            cout << "Transakcija uspjesno izvrsena!" << endl;
+                        }
+                        break;
+                    }
+                }
                 break;
             } else {
                 cout << "Ovaj racun nije vas!" << endl;
                 pauza();
-                break;
+                return;
             }
         }
     }
-    if (nastavi) {
-        cout << "Unesite vrijednost koju zelite poslati:" << endl;
-        cin >> iznos;
-        cout << "Unesite racun na koji saljete:" << endl;
-        cin >> primaoc;
-        for (auto& tekuci : listaTekucih) {
-            if (primaoc == tekuci.getBroj()) {
-                novoStanje = tekuciP->getStanje() - iznos;
-                if (novoStanje < 0) {
-                    cout << "Nemate dovoljno sredstava za transakciju!" << endl;
-                    pauza();
-                } else {
-                    tekuciP->setStanje(novoStanje);
-                    novoStanje = tekuci.getStanje() + iznos;
-                    tekuci.setStanje(novoStanje);
-                    Tekuci *primaocP = tekuci;
-                    Transakcija transakcija(*tekuciP, *primaocP, iznos);
-                    listaTransakcija.push_back(transakcija);
-                    prepisiTekuce();
-                    prepisiTransakcije();
-                    cout << "Transakcija uspjesno izvrsena!" << endl;
-                }
-                break;
-            }
-        }
-    } 
 }
 
-void transakcije() {
-    ispisiTransakcije();
+void transakcije(string username) {
+    ispisiTransakcije(username);
     cout << endl;
     pritisniEnterZaNastavak();
 }

@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
 
 using namespace std;
 
@@ -136,18 +137,18 @@ class Kredit {
 class Transakcija {
     public:
         Transakcija();
-        Transakcija(Tekuci &posiljaoc, Tekuci &primaoc, double iznos);
+        Transakcija(shared_ptr<Tekuci> posiljaoc, shared_ptr<Tekuci> primaoc, double iznos);
 
         void ispisiPodatkeTransakcije() const;
 
         // getteri
-        Tekuci getPosiljaoc() const;
-        Tekuci getPrimaoc() const;
-        double getIznos() const;
+        shared_ptr<Tekuci> getPosiljaoc();
+        shared_ptr<Tekuci> getPrimaoc();
+        double getIznos();
 
     private:
-        Tekuci posiljaoc;
-        Tekuci primaoc;
+        shared_ptr<Tekuci> posiljaoc;
+        shared_ptr<Tekuci> primaoc;
         double iznos;
 };
 

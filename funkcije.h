@@ -7,6 +7,7 @@
 #include <fstream>
 #include <thread>
 #include <chrono>
+#include <memory>
 #include "klase.h"
 #include "global.h"
 
@@ -212,8 +213,11 @@ void ispisiTransakcije(string username) {
     int counter = 0;
     cout << "Vase transakcije:" << endl;
     cout << endl;
-    for (const auto& transakcija : listaTransakcija) {
-        if (transakcija.getPosiljaoc().getVlasnik() == username || transakcija.getPrimaoc().getVlasnik() == username) {
+    for (auto& transakcija : listaTransakcija) {
+        auto posiljaoc = transakcija.getPosiljaoc();
+        auto primaoc = transakcija.getPrimaoc();
+
+        if (posiljaoc && primaoc && (transakcija.getPosiljaoc()->getVlasnik() == username || transakcija.getPrimaoc()->getVlasnik() == username)) {
             transakcija.ispisiPodatkeTransakcije();
             counter++;
         }
@@ -355,7 +359,7 @@ int ucitajKredite() {
 }
 
 int prepisiTransakcije() {
-    string filename = "krediti.txt";
+    string filename = "transakcije.txt";
 
     ofstream outputFile(filename);
 
@@ -363,9 +367,9 @@ int prepisiTransakcije() {
         cerr << "Greska pri otvaranju fajla!" << endl;
         return 1;
     }
-    for (const auto& transakcija : listaTransakcija) {
-        outputFile << transakcija.getPosiljaoc() << endl;
-        outputFile << transakcija.getPrimaoc() << endl;
+    for (auto& transakcija : listaTransakcija) {
+        outputFile << transakcija.getPosiljaoc()->getBroj() << endl;
+        outputFile << transakcija.getPrimaoc()->getBroj() << endl;
         outputFile << transakcija.getIznos() << endl;
         outputFile << endl;
     }
@@ -376,7 +380,7 @@ int prepisiTransakcije() {
 }
 
 int ucitajTransakcije() {
-    string filename = "krediti.txt";
+    string filename = "transakcije.txt";
 
     ifstream inputFile(filename);
 
@@ -385,20 +389,38 @@ int ucitajTransakcije() {
         return 1;
     }
 
-    Tekuci posiljaoc, primaoc;
+    string posiljaocBroj, primaocBroj;
     double iznos;
+    shared_ptr<Tekuci> posiljaoc = nullptr;
+    shared_ptr<Tekuci> primaoc = nullptr;
+    int napusti = 0;
     int linija = 0;
-    while (inputFile >> posiljaoc >> primaoc >> iznos) {
+    while (inputFile >> posiljaocBroj >> primaocBroj >> iznos) {
         linija++;
         if (linija % 4 == 0) {
             linija = 0;
             continue;
+        }
+        for (auto& tekuci : listaTekucih) {
+            if (tekuci.getBroj() == posiljaocBroj) {
+                posiljaoc = make_shared<Tekuci>(tekuci);
+                napusti++;
+            }
+            if (tekuci.getBroj() == primaocBroj) {
+                primaoc = make_shared<Tekuci>(tekuci);
+                napusti++;
+            }
+            if (napusti == 2) {
+                break;
+            }
         }
         Transakcija transakcija(posiljaoc, primaoc, iznos);
         listaTransakcija.push_back(transakcija);
     } 
 
     inputFile.close();
+
+    return 0;
 }
 
 #endif // FUNKCIJE_H
