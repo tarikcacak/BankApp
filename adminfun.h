@@ -22,7 +22,10 @@ int dodajRadnika(Radnik radnik);
 void urediRadnika(int selectedId);
 int prepisiRadnike();
 void kreirajUrediRadnika();
-
+void tekuciRacuni();
+void stedniRacuni();
+void krediti();
+void transakcije();
 
 void adminLogika() {
     while (true) {
@@ -33,6 +36,7 @@ void adminLogika() {
         switch (option) {
             case 1:
                 if (!listaKorisnika.empty()) {
+                    system("cls");
                     ispisiKorisnike();
                     int idKorisnika;
                     cin >> idKorisnika;
@@ -47,12 +51,16 @@ void adminLogika() {
                 kreirajUrediRadnika();
                 break;
             case 3: 
+                tekuciRacuni();
                 break;
             case 4:
+                stedniRacuni();
                 break;
             case 5:
+                krediti();
                 break;
             case 6:
+                transakcije();
                 break;
             case 7: 
                 logOff = true;
@@ -69,6 +77,7 @@ void adminLogika() {
 }
 
 void menuAdmin() {
+    system("cls");
     cout << "Opcije: " << endl;
     cout << "1. Uredi korisnika" << endl;
     cout << "2. Kreiraj/uredi radnika" << endl;
@@ -107,6 +116,7 @@ void urediKorisnika(int selectedId) {
     while (true) {
         for (const auto& korisnik : listaKorisnika) {
             if (korisnik.getId() == selectedId) {
+                system("cls");
                 cout << "Podaci korisnika: " << korisnik.getUsername() << endl;
                 cout << "User ID: " << korisnik.getId() << endl;
                 cout << "1. Username: " << korisnik.getUsername() << endl;
@@ -140,6 +150,9 @@ void urediKorisnika(int selectedId) {
             cin >> noviUsername;
             const_cast<Korisnik*>(odabrani)->setUsername(noviUsername);
             prepisiKorisnike();
+            system("cls");
+            cout << "Username uspjesno promjenjen!" << endl;
+            pauza();
             break;
         case 2: 
             system("cls");
@@ -147,6 +160,9 @@ void urediKorisnika(int selectedId) {
             cin >> noviPassword;
             const_cast<Korisnik*>(odabrani)->setPassword(noviPassword);
             prepisiKorisnike();
+            system("cls");
+            cout << "Password uspjesno promjenjen!" << endl;
+            pauza();
             break;
         case 3: 
             system("cls");
@@ -154,6 +170,9 @@ void urediKorisnika(int selectedId) {
             cin >> noviJMBG;
             const_cast<Korisnik*>(odabrani)->setJMBG(noviJMBG);
             prepisiKorisnike();
+            system("cls");
+            cout << "JMBG uspjesno promjenjen!" << endl;
+            pauza();
             break;
         default:
             system("cls");
@@ -165,6 +184,7 @@ void urediKorisnika(int selectedId) {
 
 void kreirajUrediRadnika() {
     int odabir;
+    system("cls");
     cout << "Opcije:" << endl;
     cout << "1. Kreiraj radnika" << endl;
     cout << "2. Uredi radnika" << endl;
@@ -191,6 +211,7 @@ void kreirajUrediRadnika() {
         }
         case 2: {
             if (!listaRadnika.empty()) {
+                system("cls");
                 ispisiRadnike();
                 int idRadnika;
                 cin >> idRadnika;
@@ -292,6 +313,7 @@ void urediRadnika(int slectedId) {
     while (true) {
         for (const auto& radnik : listaRadnika) {
             if (radnik.getId() == slectedId) {
+                system("cls");
                 cout << "Podaci radnika: " << radnik.getUsername() << endl;
                 cout << "Worker ID: " << radnik.getId() << endl;
                 cout << "1. Username: " << radnik.getUsername() << endl;
@@ -325,6 +347,8 @@ void urediRadnika(int slectedId) {
             cin >> noviUsername;
             const_cast<Radnik*>(odabrani)->setUsername(noviUsername);
             prepisiRadnike();
+            cout << "Uspjesno promjenjen username!" << endl;
+            pauza();
             break;
         case 2: 
             system("cls");
@@ -332,6 +356,8 @@ void urediRadnika(int slectedId) {
             cin >> noviPassword;
             const_cast<Radnik*>(odabrani)->setPassword(noviPassword);
             prepisiRadnike();
+            cout << "Uspjesno promjenjen password!" << endl;
+            pauza();
             break;
         case 3: 
             system("cls");
@@ -339,6 +365,8 @@ void urediRadnika(int slectedId) {
             cin >> noviJMBG;
             const_cast<Radnik*>(odabrani)->setJMBG(noviJMBG);
             prepisiRadnike();
+            cout << "Uspjesno promjenjen JMBG!" << endl;
+            pauza();
             break;
         default:
             system("cls");
@@ -348,5 +376,131 @@ void urediRadnika(int slectedId) {
     }
 }
 
+void tekuciRacuni() {
+    int opcija;
+    string broj;
+    system("cls");
+    cout << "Tekuci racuni:" << endl;
+    cout << endl;
+    for (auto& tekuci : listaTekucih) {
+        tekuci.ispisiPodatkeTekuceg();
+    }
+    while (true) {
+        cout << "Da li zelite izbrisati neki tekuci racun:" << endl;
+        cout << "1.Da" << endl;
+        cout << "2.Ne" << endl;
+        cin >> opcija;
+        if (opcija == 1) {
+            cout << "Unesite broj racuna koji zelite izbrisati:" << endl;
+            cin >> broj;
+            for (auto it = listaTekucih.begin(); it != listaTekucih.end(); ++it) {
+                if (it->getBroj() == broj) {
+                    listaTekucih.erase(it);
+                    prepisiTekuce();
+                    system("cls");
+                    cout << "Tekuci racun: " << broj << " je uspjesno izbrisan!" << endl;
+                    pauza();
+                    return;
+                }
+            }
+        } else if (opcija == 2) {
+            return;
+        } else {
+            system("cls");
+            cout << "Unjeli ste nepostojecu opciju!" << endl;
+            pauza();
+        }
+    }
+}
+
+void stedniRacuni() {
+    int opcija;
+    string broj;
+    system("cls");
+    cout << "Stedni racuni:" << endl;
+    cout << endl;
+    for (auto& stedni : listaStednih) {
+        stedni.ispisiPodatkeStednog();
+    }
+    while (true) {
+        cout << "Da li zelite izbrisati neki stedni racun:" << endl;
+        cout << "1.Da" << endl;
+        cout << "2.Ne" << endl;
+        cin >> opcija;
+        if (opcija == 1) {
+            cout << "Unesite broj racuna koji zelite izbrisati:" << endl;
+            cin >> broj;
+            for (auto it = listaStednih.begin(); it != listaStednih.end(); ++it) {
+                if (it->getBroj() == broj) {
+                    listaStednih.erase(it);
+                    prepisiStedne();
+                    system("cls");
+                    cout << "Stedni racun: " << broj << " je uspjesno izbrisan!" << endl;
+                    pauza();
+                    return;
+                }
+            }
+        } else if (opcija == 2) {
+            return;
+        } else {
+            system("cls");
+            cout << "Unjeli ste nepostojecu opciju!" << endl;
+            pauza();
+        }
+    }
+}
+
+void krediti() {
+    int opcija;
+    string id;
+    system("cls");
+    cout << "Krediti:" << endl;
+    cout << endl;
+    for (auto& kredit : listaKredita) {
+        kredit.ispisiPodatkeKredita();
+    }
+    while (true) {
+        cout << "Da li zelite zavrsiti neki kredit:" << endl;
+        cout << "1.Da" << endl;
+        cout << "2.Ne" << endl;
+        cin >> opcija;
+        if (opcija == 1) {
+            cout << endl;
+            cout << "Unesite ID kredita:" << endl;
+            cin >> id;
+            for (auto it = listaKredita.begin(); it != listaKredita.end(); ++it) {
+                if (it->getId() == id) {
+                    listaKredita.erase(it);
+                    prepisiKredite();
+                    system("cls");
+                    cout << "Kredit s ID: " << id << " je uspjesno zavrsen!" << endl;
+                    pauza();
+                    return;
+                }
+            }
+        } else if (opcija == 2) {
+            return;
+        } else {
+            cout << "Unjeli ste nepostojecu opciju!" << endl;
+            pauza();
+        }
+    }
+}
+
+void transakcije() {
+    system("cls");
+    cout << "Transakcije:" << endl;
+    cout << endl;
+    if (listaTransakcija.empty()) {
+        cout << "Lista transakcija je prazna!" << endl;
+    } else {
+        for (auto& transakcija : listaTransakcija) {
+            transakcija.ispisiPodatkeTransakcije();
+        }
+    }
+    cout << endl;
+    pritisniEnterZaNastavak();
+    cout.flush();
+}
 
 #endif // ADMINFUN_H

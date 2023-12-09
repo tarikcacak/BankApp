@@ -31,7 +31,6 @@ void digniKredit(string username);
 void platiRatu(string username);
 void posaljiNovac(string username);
 void transakcije(string username);
-
 void userLogika(string username) {
     while (true) {
         int option; 
@@ -58,6 +57,7 @@ void userLogika(string username) {
                 logOff = true;
                 break;
             default:
+                system("cls");
                 cout << "Unjeli ste nepostojecu opciju!" << endl;
                 pauza();
                 break;
@@ -69,6 +69,7 @@ void userLogika(string username) {
 }
 
 void menuUser() {
+    system("cls");
     cout << "Opcije:" << endl;
     cout << "1. Tekuci racuni" << endl;
     cout << "2. Stedni racuni" << endl;
@@ -83,6 +84,7 @@ void userTekuci(string username) {
     bool napusti = false; 
     int opcija;
     while (!napusti) {
+        system("cls");
         cout << "Opcije:" << endl;
         cout << "1. Kreiraj tekuci racun" << endl;
         cout << "2. Pregled tekucih racuna" << endl;
@@ -103,12 +105,14 @@ void userTekuci(string username) {
                 );
                 listaTekucih.push_back(tekuci);
                 prepisiTekuce();
+                system("cls");
                 cout << "Uspjesno ste kreirali tekuci racun!" << endl;
                 cout << "Za ostale detalje odaberite opciju \"Pregled tekucih racuna\"" << endl;
                 pauza();
                 break;
             }
             case 2: {
+                system("cls");
                 ispisiTekuceRacune(username);
                 cout << "Da li zelite izvrsiti uplatu na neki racun?" << endl;
                 cout << "1. Da" << endl;
@@ -119,6 +123,7 @@ void userTekuci(string username) {
                 switch (daNe) {
                     case 1: {
                         string tekuciBroj;
+                        cout << endl;
                         cout << "Unesite broj tekuceg racuna za uplatu:" << endl;
                         cin >> tekuciBroj;
                         bool pronaden = false;
@@ -131,11 +136,15 @@ void userTekuci(string username) {
                                 double novi = iznos + stari;
                                 tekuci.setStanje(novi);
                                 prepisiTekuce();
+                                system("cls");
+                                cout << "Uspjesno ste izvrsili uplatu" << endl;
+                                pauza();
                                 pronaden = true;
                                 break;
                             }
                         }
                         if (!pronaden) {
+                            system("cls");
                             cout << "Nije pronaden racun s unesenim brojem!" << endl;
                             pauza();
                         }
@@ -145,6 +154,7 @@ void userTekuci(string username) {
                         continue;
                         break;
                     default:
+                        system("cls");
                         cout << "Unjeli ste nepostojecu opciju!" << endl;
                         pauza();
                         break;
@@ -154,6 +164,7 @@ void userTekuci(string username) {
                 napusti = true;
                 break;
             default:
+                system("cls");
                 cout << "Unjeli ste nepostojecu opciju!" << endl;
                 pauza();
                 break;
@@ -165,6 +176,7 @@ void userStedni(string username) {
     bool napusti = false;
     int opcija;
     while (!napusti) {
+        system("cls");
         cout << "Opcije:" << endl;
         cout << "1. Kreiraj stedni racun" << endl;
         cout << "2. Pregled stednih racuna" << endl;
@@ -185,12 +197,14 @@ void userStedni(string username) {
                 );
                 listaStednih.push_back(stedni);
                 prepisiStedne();
+                system("cls");
                 cout << "Uspjesno ste kreirali stedni racun!" << endl;
                 cout << "Za ostale detalje odaberite opciju \"Pregled stednih racuna\"" << endl;
                 pauza();
                 break;
             }
             case 2: {
+                system("cls");
                 ispisiStedneRacune(username);
                 cout << "Da li zelite izvrsiti uplatu na neki racun?" << endl;
                 cout << "1. Da" << endl; 
@@ -201,6 +215,7 @@ void userStedni(string username) {
                 switch (daNe) {
                     case 1: {
                         string stedniBroj;
+                        cout << endl;
                         cout << "Unesite broj stednog racuna za uplatu:" << endl;
                         cin >> stedniBroj;
                         bool pronaden = false;
@@ -214,10 +229,14 @@ void userStedni(string username) {
                                 stedni.setStanje(novi);
                                 prepisiStedne();
                                 pronaden = true;
+                                system("cls");
+                                cout << "Uplata na stedni racun uspjesna!" << endl;
+                                pauza();
                                 break;
                             }
                         }
                         if (!pronaden) {
+                            system("cls");
                             cout << "Nije pronaden racun s unesenim brojem!" << endl;
                             pauza();
                         }
@@ -227,6 +246,7 @@ void userStedni(string username) {
                         continue;
                         break;
                     default:
+                        system("cls");
                         cout << "Unjeli ste nepostojecu opciju!" << endl;
                         pauza();
                         break;
@@ -236,6 +256,7 @@ void userStedni(string username) {
                 napusti = true;
                 break;
             default:
+                system("cls");
                 cout << "Unjeli ste nepostojecu opciju!" << endl;
                 pauza();
                 break;
@@ -248,6 +269,7 @@ void userKredit(string username) {
     bool napusti = false;
     int opcije;
     while (!napusti) {
+        system("cls");
         cout << "Opcije:" << endl;
         cout << "1. Pregled kredita" << endl;
         cout << "2. Digni kredit" << endl;
@@ -257,6 +279,7 @@ void userKredit(string username) {
         cin >> opcije;
         switch (opcije) {
             case 1: 
+                system("cls");
                 ispisiKredite(username);
                 break;
             case 2: {
@@ -278,13 +301,13 @@ void userKredit(string username) {
 }
 
 void digniKredit(string username) {
+    system("cls");
     string id, korisnik;
     double ukupno;
     double dug;
     double placeno = 0;
     int rate;
     korisnik = username;
-    cout << korisnik << endl;
     id = kreirajKreditId();
     cout << "Unesite kolicinu za dizanje kredita:" << endl;
     cin >> ukupno;
@@ -295,6 +318,7 @@ void digniKredit(string username) {
     Kredit kredit(id, korisnik, ukupno, dug, placeno, rate);
     listaKredita.push_back(kredit);
     prepisiKredite();
+    system("cls");
     cout << "Uspjesno ste digli kredit!" << endl;
     pauza();
 }
@@ -305,6 +329,7 @@ void platiRatu(string username) {
         cout << "Nemate kredita!" << endl;
         pauza();
     } else {
+        system("cls");
         ispisiKredite(username);
         string id;
         double rata;
@@ -327,6 +352,7 @@ void platiRatu(string username) {
         }
         prepisiKredite();
         cout << endl;
+        system("cls");
         cout << "Uspjesno ste platili ratu!" << endl;
         pauza();
     }
@@ -340,6 +366,7 @@ void posaljiNovac(string username) {
     double iznos;
     double stanjePosiljaoc;
     double novoStanje;
+    system("cls");
     cout << "Unesite tekuci racun sa kojeg saljete:" << endl;
     cin >> posiljaoc;
     for (auto& tekuciPos : listaTekucih) {
@@ -356,6 +383,7 @@ void posaljiNovac(string username) {
                         novoStanje = stanjePosiljaoc - iznos;
                         cout << novoStanje << endl;
                         if (novoStanje < 0) {
+                            system("cls");
                             cout << "Nemate dovoljno sredstava za transakciju!" << endl;
                             pauza();
                         } else {
@@ -370,13 +398,16 @@ void posaljiNovac(string username) {
                             Transakcija transakcija(posiljaocObj, primaocObj, iznos);
                             listaTransakcija.push_back(transakcija);
                             prepisiTransakcije();
+                            system("cls");
                             cout << "Transakcija uspjesno izvrsena!" << endl;
+                            pauza();
                         }
                         break;
                     }
                 }
                 break;
             } else {
+                system("cls");
                 cout << "Ovaj racun nije vas!" << endl;
                 pauza();
                 return;
@@ -386,6 +417,7 @@ void posaljiNovac(string username) {
 }
 
 void transakcije(string username) {
+    system("cls");
     ispisiTransakcije(username);
     cout << endl;
     pritisniEnterZaNastavak();

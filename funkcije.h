@@ -224,7 +224,7 @@ void ispisiTransakcije(string username) {
     }
     if (counter == 0) {
         cout << "Nemate transakcija!" << endl;
-        pauza();
+        cout << endl;
     }
 }
 

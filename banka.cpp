@@ -30,6 +30,7 @@ int main() {
         if (option == 1) {
             string username;
             string password;
+            system("cls");
             cout << "Unesite svoj username:" << endl;
             cin >> username;
             cout << "Unesite svoj password:" << endl;
@@ -62,6 +63,7 @@ int main() {
             string password;
             string passwordConf;
             string JMBG;
+            system("cls");
             cout << "Unesite username:" << endl;
             cin >> username;
             uporediPassword(&password, &passwordConf);
