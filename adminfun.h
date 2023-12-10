@@ -397,6 +397,12 @@ void tekuciRacuni() {
                 if (it->getBroj() == broj) {
                     listaTekucih.erase(it);
                     prepisiTekuce();
+                    for (auto it = listaTransakcija.begin(); it != listaTransakcija.end(); ++it) {
+                        if (it->getPosiljaoc()->getBroj() == broj || it->getPrimaoc()->getBroj() == broj) {
+                            listaTransakcija.erase(it);
+                        }
+                    }
+                    prepisiTransakcije();
                     system("cls");
                     cout << "Tekuci racun: " << broj << " je uspjesno izbrisan!" << endl;
                     pauza();
@@ -492,7 +498,7 @@ void transakcije() {
     cout << "Transakcije:" << endl;
     cout << endl;
     if (listaTransakcija.empty()) {
-        cout << "Lista transakcija je prazna!" << endl;
+        cout << "Nema dostupnih transakcija." << endl;
     } else {
         for (auto& transakcija : listaTransakcija) {
             transakcija.ispisiPodatkeTransakcije();

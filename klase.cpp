@@ -263,6 +263,10 @@ double Transakcija::getIznos() {
     return iznos;
 }
 
-void Transakcija::ispisiPodatkeTransakcije() const {
-    cout << posiljaoc->getVlasnik() << " ---> " << primaoc->getVlasnik() << " (" << iznos << ")" << endl;
+void Transakcija::ispisiPodatkeTransakcije() {
+    if (posiljaoc && primaoc) {
+        cout << posiljaoc->getVlasnik() << " ---> " << primaoc->getVlasnik() << " (" << iznos << ")" << endl;
+    } else {
+        cout << "Neispravni podaci transakcija! posiljaoc: " << posiljaoc << ", primaoc: " << primaoc << endl;
+    }
 }

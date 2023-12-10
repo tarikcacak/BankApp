@@ -134,12 +134,12 @@ class Kredit {
         double brojRata;
 };
 
-class Transakcija {
+class Transakcija : public __enable_shared_from_this<Transakcija> {
     public:
         Transakcija();
         Transakcija(shared_ptr<Tekuci> posiljaoc, shared_ptr<Tekuci> primaoc, double iznos);
 
-        void ispisiPodatkeTransakcije() const;
+        void ispisiPodatkeTransakcije();
 
         // getteri
         shared_ptr<Tekuci> getPosiljaoc();

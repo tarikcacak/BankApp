@@ -396,6 +396,7 @@ int ucitajTransakcije() {
     int napusti = 0;
     int linija = 0;
     while (inputFile >> posiljaocBroj >> primaocBroj >> iznos) {
+        napusti = 0;
         linija++;
         if (linija % 4 == 0) {
             linija = 0;
