@@ -31,6 +31,7 @@ void digniKredit(string username);
 void platiRatu(string username);
 void posaljiNovac(string username);
 void transakcije(string username);
+
 void userLogika(string username) {
     while (true) {
         int option; 
@@ -281,6 +282,7 @@ void userKredit(string username) {
             case 1: 
                 system("cls");
                 ispisiKredite(username);
+                pritisniEnterZaNastavak();
                 break;
             case 2: {
                 digniKredit(username);
